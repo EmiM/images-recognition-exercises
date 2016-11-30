@@ -51,7 +51,13 @@ vector<pair<Mat, int>> get_images() {
 				// invert
 				threshold(binary_img, inverted_img, threshold_value, max_BINARY_value, THRESH_BINARY_INV);
 
-				images_numbers.push_back(make_pair(inverted_img, number));
+				if (number == 0) {
+					images_numbers.push_back(make_pair(inverted_img, 10));  // we're marking 0 as 10 cause file with features can't have 0 as <label>
+				}
+				else {
+					images_numbers.push_back(make_pair(inverted_img, number));
+				}
+				
 
 			}
 		}
@@ -82,7 +88,7 @@ int main(int argc, char** argv)
 		// ograniczyæ wyniki po przecinku
 		// zapisaæ do pliku (31 dla ka¿dej linii)
 		features.open("features_output.txt", fstream::app);
-		features << image.second + 1 << " ";
+		features << image.second << " ";
 		int h;
 		for (h = 0; h < 7; h++) {
 			//save_feature(features, h+1, hum[h]);
